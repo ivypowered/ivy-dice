@@ -23,7 +23,7 @@ import (
 var GAME_ADDRESS = MustDecodeBase58PublicKey(os.Getenv("GAME"))
 var WITHDRAW_AUTHORITY_PRIVATE_KEY = MustDecodeHexPrivateKey(os.Getenv("WITHDRAW_AUTHORITY_PRIVATE_KEY"))
 
-const IVY_URL = "http://127.0.0.1:3000"
+const IVY_URL = "https://ivypowered.com"
 const PORT = 8000
 const DB_PATH = "./backend.db"
 const CLIENT_SEED_MIN_LENGTH = 6

@@ -2,12 +2,13 @@ genrule(
     name = "build",
     srcs = [
         "go.mod",
-    ] + glob(["public/*.php"]),
+    ] + glob(["*.go"]),
     local = True,
     cmd = """
         ROOT_DIR=$$(pwd)
         cd $$(dirname $(location go.mod))
-        go build .
+        HOME=~/ go build .
+        cp backend $$ROOT_DIR/$@
     """,
     outs = ["backend"]
 )
