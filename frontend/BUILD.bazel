@@ -1,0 +1,49 @@
+genrule(
+    name = "build",
+    srcs = [
+        "tailwind.config.js",
+    ] + glob(["public/*.php"]),
+    local = True,
+    cmd = """
+        ROOT_DIR=$$(pwd)
+        cd $$(dirname $(location tailwind.config.js))
+        if [ ! -f ./tailwindcss-linux-x64 ]; then
+            echo "Tailwind CSS executable not found. Downloading..."
+            curl -O -L https://github.com/tailwindlabs/tailwindcss/releases/download/v4.1.11/tailwindcss-linux-x64
+            chmod +x ./tailwindcss-linux-x64
+            echo "Download complete."
+        fi
+        ./tailwindcss-linux-x64 -m -i ./tailwind.css -o public/styles.css
+        zip -r $$ROOT_DIR/$@ public/*
+    """,
+    outs = ["frontend.zip"]
+)
+
+
+genrule(
+    name = "dev",
+    srcs = [":build", "tailwind.css"],
+    local = True,
+    cmd = """
+        EXEC_DIR=$$(pwd)/$$(dirname $(location tailwind.css))
+
+        cat > "$@" << EOF
+#!/bin/sh
+
+# Go to execution directory
+cd $${EXEC_DIR}
+
+# Enter public
+cd public
+
+# Start the development server
+php -S 127.0.0.1:7000
+EOF
+
+        # Make the created script executable
+        chmod +x "$@"
+    """,
+    outs = ["dev.sh"],
+    executable = True,
+    tags = ["manual"],
+)

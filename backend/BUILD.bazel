@@ -1,0 +1,13 @@
+genrule(
+    name = "build",
+    srcs = [
+        "go.mod",
+    ] + glob(["public/*.php"]),
+    local = True,
+    cmd = """
+        ROOT_DIR=$$(pwd)
+        cd $$(dirname $(location go.mod))
+        go build .
+    """,
+    outs = ["backend"]
+)

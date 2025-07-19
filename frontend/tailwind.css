@@ -1,0 +1,12 @@
+@config "./tailwind.config.js";
+@import "tailwindcss";
+
+@layer components {
+    button {
+        cursor: pointer;
+    }
+
+    button:disabled {
+        cursor: default;
+    }
+}
