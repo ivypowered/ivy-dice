@@ -89,7 +89,7 @@ function icon($icon, $class_name = "")
 
 /**
  * Authenticate the user with the backend.
- * @return object The user object: { id: string; balance: number, logged_in: boolean, message: string, signature: string }
+ * @return array The user object: { id: string; balance: number, logged_in: boolean, message: string, signature: string }
  */
 function authenticate()
 {
@@ -128,5 +128,3 @@ function authenticate()
         "serverSeedHash" => $serverSeedHash,
     ];
 }
-
-?>
